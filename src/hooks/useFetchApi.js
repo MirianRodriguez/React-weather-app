@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { SearchContext } from '../context/SearchContext';
 import { fetchApiWeather } from '../helpers/fetchApiWeather';
 
 export const useFetchApi = (city) => {
 
-    const [data, setData] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+    const {setData, setIsLoading} = useContext(SearchContext);
 
     const getDataWeather = async() => {
         setData(await fetchApiWeather(city));
@@ -15,6 +15,5 @@ export const useFetchApi = (city) => {
         getDataWeather();
     },[city]);
 
-
-    return ({data, isLoading});
+    return;
 }

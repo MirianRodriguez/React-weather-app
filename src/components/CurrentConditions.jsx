@@ -2,24 +2,28 @@ import {
   Card,
   CardActionArea,
   CardContent,
-  Typography, Grid,
+  Typography, Grid, Paper,
 } from "@mui/material";
 import React, { useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
 import { useFetchApi } from "../hooks/useFetchApi";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import { alpha } from "@mui/material";
+
 
 export const CurrentConditions = () => {
   const { city } = useContext(SearchContext);
 
-  const { data, isLoading } = useFetchApi(city);
+  useFetchApi(city);
+
+  const {data, isLoading} = useContext(SearchContext);
 
   console.log(data);
 
   return isLoading ? (
     <p>cargando</p>
   ) : (
-    <Card>
+    <Paper component={Card} variant='outlined' sx={{bgcolor: alpha('#ffffff', 0.25)}}>
         <CardActionArea>
             <CardContent>
                 <Grid container justifyContent={'center'} >
@@ -38,6 +42,6 @@ export const CurrentConditions = () => {
                 </Typography>
             </CardContent>
         </CardActionArea>
-    </Card>
+    </Paper>
   );
 };
