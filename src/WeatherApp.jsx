@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { ThemeProvider } from '@mui/material/styles';
 import { CurrentConditions } from "./components/CurrentConditions";
 import { FutureConditionsCard } from "./components/FutureConditionsCard";
@@ -10,21 +10,13 @@ import { theme } from "./theme/themeConfig";
 
 function WeatherApp() {
 
-  const myStyle={
-    backgroundImage: "url(src/assets/images/sunset.jpg)",
-    height:'100vh',
-    fontSize:'50px',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-  };
-
   return (
     <ThemeProvider theme={theme}>
       <SearchProvider>
-        <Box style={myStyle}>
+        <Box className="background">
           <NavBar />
-          <Container>
-            <Grid container item spacing={3} mt={3} xs={12} sm={12} md={6} lg={6} xl={6} sx={{ mx: "auto" }}>
+          <Container >
+            <Grid container item spacing={3} xs={12} sm={12} md={6} lg={6} xl={6} sx={{ mx: "auto", pt: 10 }}>
               <Grid item xs={12}>
                 <SearchCity />
               </Grid>
@@ -42,7 +34,8 @@ function WeatherApp() {
                   <FutureConditionsCard order={3}/>
                 </Grid>
               </Grid>
-            </Grid>  
+            </Grid> 
+            {/* <Typography variant="h1" color="initial">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, ipsum. Aut dignissimos natus, perferendis esse adipisci, eos quis eum quia incidunt voluptatibus corporis doloremque id quos consectetur reiciendis nemo beatae!</Typography>  */}
           </Container>
         </Box>
       </SearchProvider>

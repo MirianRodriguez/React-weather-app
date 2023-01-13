@@ -7,14 +7,20 @@ import { alpha } from "@mui/material";
 
 export const FutureConditionsCard = ({order}) => {
     const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    const today = new Date();
-
+    
     const [weekDay, setweekDay] = useState();
 
     const checkWeekDay = () => {
+        const today = new Date();
         let weekDay = today.getDay() + order;
-        if (weekDay > 6) {
+        if (weekDay == 7) {
             weekDay = 0;
+        }
+        if (weekDay == 8) {
+            weekDay = 1;
+        }
+        if (weekDay == 9) {
+            weekDay = 2;
         }
         setweekDay(weekDay);
     }

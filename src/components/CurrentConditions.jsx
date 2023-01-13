@@ -35,8 +35,10 @@ export const CurrentConditions = () => {
                 <Typography gutterBottom variant="h5" component="div">
                     {data.resolvedAddress}
                 </Typography>
+                <Typography variant="body1" color="text.secondary" paragraph>
+                    {data.currentConditions.temp} °C - {data.description}
+                </Typography>
                 <Typography variant="body2" color="text.secondary">
-                    Temperatura actual: {data.currentConditions.temp} °C <br />
                     Máx: {data.days[0].tempmax} °C <br />
                     Mín: {data.days[0].tempmin} °C <br />
                 </Typography>
