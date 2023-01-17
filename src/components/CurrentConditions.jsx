@@ -9,6 +9,7 @@ import { SearchContext } from "../context/SearchContext";
 import { useFetchApi } from "../hooks/useFetchApi";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { alpha } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 
 export const CurrentConditions = () => {
@@ -20,11 +21,17 @@ export const CurrentConditions = () => {
 
   console.log(data);
 
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/${data.address}?day=0`);
+  }
+
   return isLoading ? (
     <p>cargando</p>
   ) : (
     <Paper component={Card} variant='outlined' sx={{bgcolor: alpha('#ffffff', 0.25)}}>
-        <CardActionArea>
+        <CardActionArea onClick={handleClick}>
             <CardContent>
                 <Grid container justifyContent={'center'} >
                     <Grid item xs={12} textAlign={'center'}>

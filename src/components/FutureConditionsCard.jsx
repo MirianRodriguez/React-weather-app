@@ -1,8 +1,9 @@
-import { Card, CardActionArea, CardContent, Grid, Paper, Typography } from '@mui/material';
+import { Card, CardActionArea, CardContent, Grid, Link, Paper, Typography } from '@mui/material';
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import React, { useContext, useEffect, useState } from 'react'
 import { SearchContext } from '../context/SearchContext';
 import { alpha } from "@mui/material";
+import { useNavigate } from 'react-router-dom';
 
 
 export const FutureConditionsCard = ({order}) => {
@@ -29,14 +30,19 @@ export const FutureConditionsCard = ({order}) => {
       checkWeekDay();
     }, [order])
     
-
     const {data, isLoading} = useContext(SearchContext);
+
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+      navigate(`/${data.address}?day=${order}`);
+    }
   
     return (isLoading ? (
         <p>cargando</p>
       ) : (
         <Paper component={Card} variant='outlined' sx={{bgcolor: alpha('#ffffff', 0.25), height: "100%"}}>
-            <CardActionArea>
+            <CardActionArea onClick={handleClick}>
                 <CardContent>
                     <Typography gutterBottom variant="h5" textAlign="center">
                         {days[weekDay]}
