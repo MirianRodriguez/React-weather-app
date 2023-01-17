@@ -17,7 +17,7 @@ export const DetailsTable = () => {
     const {day} = queryParams;
 
     //console.log(data.resolvedAddress);
-    console.log(data.days[day]);
+    //console.log(data.days[day]);
 
     return (
         <TableContainer component={Paper} sx={{ bgcolor: alpha('#ffffff', 0.25) }}>

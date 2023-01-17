@@ -4,10 +4,10 @@ import { fetchApiWeather } from '../helpers/fetchApiWeather';
 
 export const useFetchApi = (city) => {
 
-    const {setData, setIsLoading} = useContext(SearchContext);
+    const {saveData, setIsLoading} = useContext(SearchContext);
 
     const getDataWeather = async() => {
-        setData(await fetchApiWeather(city));
+        saveData(await fetchApiWeather(city));
         setIsLoading(false);
     }
 

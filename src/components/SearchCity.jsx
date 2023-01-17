@@ -5,7 +5,7 @@ import { useForm } from '../hooks/useForm'
 
 export const SearchCity = () => {
 
-    const {setCity}= useContext(SearchContext);
+    const {saveCity}= useContext(SearchContext);
 
     const {citySearched, onInputChange} = useForm({
         citySearched:'',
@@ -13,7 +13,7 @@ export const SearchCity = () => {
 
     const onSubmitSearch = (event) => {
         event.preventDefault();
-        setCity(citySearched);
+        saveCity(citySearched);
     }
 
     return (    

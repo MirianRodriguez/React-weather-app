@@ -19,7 +19,7 @@ export const CurrentConditions = () => {
 
   const {data, isLoading} = useContext(SearchContext);
 
-  console.log(data);
+  //console.log(data);
 
   const navigate = useNavigate();
 
