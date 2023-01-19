@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Paper, Card, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'
+import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'
 import { alpha, Typography } from "@mui/material";
 import { SearchContext } from '../context/SearchContext';
 import { useLocation } from 'react-router-dom';
@@ -16,15 +16,23 @@ export const DetailsTable = () => {
 
     const {day} = queryParams;
 
-    //console.log(data.resolvedAddress);
-    //console.log(data.days[day]);
+    const date = new Date(`${data.days[day].datetime}T00:00:00`);
+
+    const formatDate = date.toLocaleDateString('es-ar', { weekday:"long", year:"numeric", month:"long", day:"numeric"});
 
     return (
         <TableContainer component={Paper} sx={{ bgcolor: alpha('#ffffff', 0.25) }}>
             <Table aria-label="caption table">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center">{data.resolvedAddress}</TableCell>
+                        <TableCell align="center">
+                            <Typography variant="h5" component="div">
+                                {data.resolvedAddress}
+                            </Typography>
+                            <Typography variant="subtitle" component="div">
+                                {formatDate}
+                            </Typography>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>

@@ -1,14 +1,31 @@
 import React from 'react'
-import { Box, Container } from "@mui/material";
+import { Container, Paper } from "@mui/material";
 import { NavBar } from '../components';
+import { makeStyles } from '@mui/styles';
+
+const useStyle = makeStyles({
+  background: {
+    backgroundImage: `url('/sunset.jpg')`,
+    backgroundAttachment: 'fixed',
+    backgroundPosition: 'fixed',
+    minHeight: '100vh',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    margin: '0',
+  },
+});
 
 export const Layout = ({children}) => {
+
+  const classes = useStyle();
+
   return (
-    <Box className="background">
+
+    <Paper className={classes.background}>
       <NavBar />
       <Container >
         {children}
       </Container>
-    </Box>
+    </Paper>
   )
 }

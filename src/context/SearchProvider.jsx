@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useFetchApiCities } from '../hooks/useFetchApiCities';
 import { SearchContext } from './SearchContext'
 
 const initialCity = () => {
@@ -28,7 +29,14 @@ export const SearchProvider = ({children}) => {
   }
 
   return (
-    <SearchContext.Provider value={{city, saveCity, data, saveData, isLoading, setIsLoading}}>
+    <SearchContext.Provider value={{
+      city, 
+      saveCity, 
+      data, 
+      saveData, 
+      isLoading, 
+      setIsLoading,
+      }}>
         {children}
     </SearchContext.Provider>
   )
