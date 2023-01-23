@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useFetchApiCities } from '../hooks/useFetchApiCities';
+import { fecthApiCities } from '../helpers/fecthApiCities';
+import { useFetchApiCitiesFrom } from '../hooks/useFetchApiCitiesFrom';
 import { SearchContext } from './SearchContext'
 
 const initialCity = () => {
@@ -18,6 +19,17 @@ export const SearchProvider = ({children}) => {
 
   const [data, setData] = useState(initialData);
 
+  const [cities, setCities] = useState([]);
+
+  const country = "Argentina";
+
+  useEffect(() => {
+    useFetchApiCitiesFrom(country).then(
+      (resp) => {
+        setCities(resp)
+      });
+  }, [])
+  
   const saveCity = (city) => {
     setCity(city);
     window.localStorage.setItem("lastCity", city);
@@ -36,6 +48,7 @@ export const SearchProvider = ({children}) => {
       saveData, 
       isLoading, 
       setIsLoading,
+      cities,
       }}>
         {children}
     </SearchContext.Provider>
