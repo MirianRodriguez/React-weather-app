@@ -10,6 +10,7 @@ import { useFetchApi } from "../hooks/useFetchApi";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { alpha } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import { WeatherIcon } from "./WeatherIcon";
 
 
 export const CurrentConditions = () => {
@@ -33,7 +34,7 @@ export const CurrentConditions = () => {
             <CardContent>
                 <Grid container justifyContent={'center'} >
                     <Grid item xs={12} textAlign={'center'}>
-                        <WbSunnyIcon fontSize="large" /> 
+                        <WeatherIcon iconId={data.currentConditions.icon}/>
                     </Grid>
                     <Grid item sx={{ typography: 'caption'}}>{data.currentConditions.conditions}</Grid>
                 </Grid>

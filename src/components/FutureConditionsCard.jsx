@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { SearchContext } from '../context/SearchContext';
 import { alpha } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
+import { WeatherIcon } from './WeatherIcon';
 
 
 export const FutureConditionsCard = ({order}) => {
@@ -49,7 +50,7 @@ export const FutureConditionsCard = ({order}) => {
                     </Typography>
                     <Grid container justifyContent={'center'} >
                         <Grid item xs={12} textAlign={'center'}>
-                            <WbSunnyIcon fontSize="large" /> 
+                            <WeatherIcon iconId={data.days[order].icon}/>
                         </Grid>
                         <Grid item sx={{ typography: 'caption'}}>{data.days[order].conditions}</Grid>
                     </Grid>
