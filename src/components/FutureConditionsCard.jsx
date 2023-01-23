@@ -31,7 +31,7 @@ export const FutureConditionsCard = ({order}) => {
       checkWeekDay();
     }, [order])
     
-    const {data, isLoading} = useContext(SearchContext);
+    const {data} = useContext(SearchContext);
 
     const navigate = useNavigate();
 
@@ -39,9 +39,7 @@ export const FutureConditionsCard = ({order}) => {
       navigate(`/${data.address}?day=${order}`);
     }
   
-    return (isLoading ? (
-        <p>cargando</p>
-      ) : (
+    return (
         <Paper component={Card} variant='outlined' sx={{bgcolor: alpha('#ffffff', 0.25), height: "100%"}}>
             <CardActionArea onClick={handleClick}>
                 <CardContent>
@@ -62,5 +60,5 @@ export const FutureConditionsCard = ({order}) => {
             </CardActionArea>
         </Paper>
         )
-    )
+
 }

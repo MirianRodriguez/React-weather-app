@@ -14,11 +14,8 @@ import { WeatherIcon } from "./WeatherIcon";
 
 
 export const CurrentConditions = () => {
-  const { city } = useContext(SearchContext);
 
-  useFetchApi(city);
-
-  const {data, isLoading} = useContext(SearchContext);
+  const {data} = useContext(SearchContext);
 
   const navigate = useNavigate();
 
@@ -26,9 +23,7 @@ export const CurrentConditions = () => {
     navigate(`/${data.address}?day=0`);
   }
 
-  return isLoading ? (
-    <p>cargando</p>
-  ) : (
+  return (
     <Paper component={Card} variant='outlined' sx={{bgcolor: alpha('#ffffff', 0.25)}}>
         <CardActionArea onClick={handleClick}>
             <CardContent>
