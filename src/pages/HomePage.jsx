@@ -1,9 +1,14 @@
-import { CircularProgress, Grid, LinearProgress } from "@mui/material";
+import { Button, CircularProgress, Grid } from "@mui/material";
+import { useState } from "react";
 import { useContext } from "react";
 import { CurrentConditions, SearchCity, FutureConditionsCard } from "../components";
 import { SearchContext } from "../context/SearchContext";
 import { useFetchApi } from "../hooks/useFetchApi";
 import { Layout } from "../layout/Layout";
+import { alpha } from "@mui/material";
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { DaysTable } from "../components/DaysTable";
+
 
 
 export const HomePage = () => {
@@ -13,6 +18,12 @@ export const HomePage = () => {
     useFetchApi(city);
 
     const { isLoading } = useContext(SearchContext);
+
+    const [hidden, setHidden] = useState(true);
+
+    const handleClickVerMas = () => {
+        setHidden(!hidden);
+    }
 
     return (
         <Layout>
@@ -40,6 +51,14 @@ export const HomePage = () => {
                             <FutureConditionsCard order={3} />
                         </Grid>
                     </Grid>
+                    <Grid item xs={12}>
+                        <Button fullWidth variant="outlined" sx={{bgcolor: alpha('#ffffff', 0.25)}} onClick={handleClickVerMas}>Ver próximos días<KeyboardArrowRightIcon/></Button>
+                    </Grid>
+                    {!hidden && (
+                        <Grid item xs={12}>
+                            <DaysTable/>
+                        </Grid>
+                    )}
                     </>
                 )}
             </Grid>

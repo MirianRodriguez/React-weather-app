@@ -5,25 +5,17 @@ import { SearchContext } from '../context/SearchContext';
 import { alpha } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { WeatherIcon } from './WeatherIcon';
+import { dates } from '../helpers/date';
 
 
 export const FutureConditionsCard = ({order}) => {
-    const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
     
+    const {data} = useContext(SearchContext);
+
     const [weekDay, setweekDay] = useState();
 
     const checkWeekDay = () => {
-        const today = new Date();
-        let weekDay = today.getDay() + order;
-        if (weekDay == 7) {
-            weekDay = 0;
-        }
-        if (weekDay == 8) {
-            weekDay = 1;
-        }
-        if (weekDay == 9) {
-            weekDay = 2;
-        }
+        const {weekDay} = dates(data.days[order].datetime);
         setweekDay(weekDay);
     }
 
@@ -31,7 +23,6 @@ export const FutureConditionsCard = ({order}) => {
       checkWeekDay();
     }, [order])
     
-    const {data} = useContext(SearchContext);
 
     const navigate = useNavigate();
 
@@ -44,7 +35,7 @@ export const FutureConditionsCard = ({order}) => {
             <CardActionArea onClick={handleClick}>
                 <CardContent>
                     <Typography gutterBottom variant="h5" textAlign="center">
-                        {days[weekDay]}
+                        {weekDay}
                     </Typography>
                     <Grid container justifyContent={'center'} >
                         <Grid item xs={12} textAlign={'center'}>

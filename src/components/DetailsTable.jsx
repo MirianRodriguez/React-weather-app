@@ -11,11 +11,15 @@ import {
 } from "@mui/material";
 import { alpha, Typography } from "@mui/material";
 import { SearchContext } from "../context/SearchContext";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { sizing } from "@mui/system";
 import { HourRow } from "./HourRow";
+import { dates } from "../helpers/date";
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { useEffect } from "react";
+import { ConditionRow } from "./ConditionRow";
 
 export const DetailsTable = () => {
 
@@ -29,28 +33,47 @@ export const DetailsTable = () => {
 
     const { day } = queryParams;
 
-    const date = new Date(`${data.days[day].datetime}T00:00:00`);
-
-    const formatDate = date.toLocaleDateString("es-ar", {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    });
+    const {formatDate} = dates(data.days[day].datetime);
 
     const handleClickHours = () => {
         setHidden(!hidden);
-        console.log(hidden?"oculto":"visible")
     }
 
     const hours = data.days[day].hours;
+
+    const navigate = useNavigate();
+
+    const handleBefore = () => {
+        if (day == 0) return;
+        const toDay = parseInt(day)-1;
+        navigate(`/${data.address}?day=${toDay}`);
+    }
+
+    const handleNext = () => {
+        if (day == 14) return;
+        const toDay = parseInt(day)+1;
+        navigate(`/${data.address}?day=${toDay}`);
+    }
+
+    const [disabledBefore, setDisabledBefore] = useState(false);
+    const [disabledNext, setDisabledNext] = useState(false);
+
+    useEffect(() => {
+      (day==0) ? setDisabledBefore(true) : setDisabledBefore(false);
+      (day==14) ? setDisabledNext(true) : setDisabledNext(false);
+    }, [day])
 
     return (
         <TableContainer component={Paper} sx={{ bgcolor: alpha("#ffffff", 0.25) }}>
             <Table aria-label="caption table">
                 <TableHead>
                     <TableRow>
-                        <TableCell align="center" colSpan={4}>
+                        <TableCell align="left">
+                            <Button onClick={handleBefore} disabled={disabledBefore}>                 
+                                <NavigateBeforeIcon/>
+                            </Button>
+                        </TableCell>
+                        <TableCell colSpan={2} align="center">
                             <Typography variant="h5" component="div">
                                 {data.resolvedAddress}
                             </Typography>
@@ -61,52 +84,29 @@ export const DetailsTable = () => {
                                 {data.days[day].description}
                             </Typography>
                         </TableCell>
+                        <TableCell  align="right">
+                            <Button onClick={handleNext} disabled={disabledNext}>                 
+                                <NavigateNextIcon/>
+                            </Button>
+                        </TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     <TableRow>
-                        <TableCell colSpan={1} align="left">
+                        <TableCell align="left">
                             Máx: {data.days[day].tempmax}° C  
                         </TableCell>
-                        <TableCell align="center">
+                        <TableCell colSpan={2} align="center">
                             Mín: {data.days[day].tempmin}° C  
                         </TableCell>
-                        <TableCell colSpan={1} align="right">
+                        <TableCell align="right">
                             RealFeel: {data.days[day].feelslikemax}° C  
                         </TableCell>
                     </TableRow>
-                    <TableRow>
-                        <TableCell colSpan={2}>
-                            Probabilidad de lluvia: 
-                        </TableCell>
-                        <TableCell colSpan={2} align="right">
-                            {data.days[day].precipprob} %
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell colSpan={2}>
-                            Nubosidad:
-                        </TableCell>
-                        <TableCell colSpan={2} align="right">
-                            {data.days[day].cloudcover} %
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell colSpan={2}>
-                            Humedad:
-                        </TableCell>
-                        <TableCell colSpan={2} align="right">
-                            {data.days[day].humidity} %
-                        </TableCell>
-                    </TableRow>
-                    <TableRow>
-                        <TableCell colSpan={2}>
-                            Viento
-                        </TableCell>
-                        <TableCell colSpan={2} align="right">
-                            {data.days[day].windspeed} Km/h
-                        </TableCell>
-                    </TableRow>
+                    <ConditionRow condition={"Probabilidad de lluvia: "} value={`${data.days[day].precipprob} %`}/>
+                    <ConditionRow condition={"Nubosidad: "} value={`${data.days[day].cloudcover} %`}/>
+                    <ConditionRow condition={"Humedad: "} value={`${data.days[day].humidity} %`}/>
+                    <ConditionRow condition={"Viento: "} value={`${data.days[day].windspeed} Km/h`}/>
                     <TableRow>
                         <TableCell colSpan={2}>
                             Amanecer: {data.days[day].sunrise}
@@ -121,28 +121,30 @@ export const DetailsTable = () => {
                         </TableCell>
                     </TableRow>
                 </TableBody>
-                {!hidden && (                
-                    <TableBody colSpan={4}>
-                        <TableRow>
-                        <TableCell colSpan={1}>
-                            Hora
-                        </TableCell>
-                        <TableCell colSpan={1}>
-                            Temperatura
-                        </TableCell>
-                        <TableCell colSpan={1}>
-                            Sensación térmica
-                        </TableCell>
-                        <TableCell colSpan={1}>
-                            Prob. de lluvias
-                        </TableCell>
-                        </TableRow>
-                        {hours.map((dataHour, index) => (
-                            <HourRow key={index} dataHour={dataHour} index={index}/>
-                        ))}
-                    </TableBody>
-                )}
             </Table>
+                {!hidden && ( 
+                    <Table>
+                        <TableBody colSpan={4}>
+                            <TableRow>
+                            <TableCell colSpan={1}>
+                                Hora
+                            </TableCell>
+                            <TableCell colSpan={1}>
+                                Temperatura
+                            </TableCell>
+                            <TableCell colSpan={1}>
+                                Sensación térmica
+                            </TableCell>
+                            <TableCell colSpan={1} align={"right"}>
+                                Prob. de lluvias
+                            </TableCell>
+                            </TableRow>
+                            {hours.map((dataHour, index) => (
+                                <HourRow key={index} dataHour={dataHour} index={index}/>
+                            ))}
+                        </TableBody>
+                    </Table>               
+                )}
         </TableContainer>
     );
 };
