@@ -9,7 +9,7 @@ export const useForm = (initialForm = {}) => {
             ...formState,
             [name]: value,
         })
-        console.log(formState);
+        //console.log(formState);
     }
 
     const onResetForm = () => {

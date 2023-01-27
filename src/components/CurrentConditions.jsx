@@ -6,8 +6,6 @@ import {
 } from "@mui/material";
 import React, { useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
-import { useFetchApi } from "../hooks/useFetchApi";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import { alpha } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { WeatherIcon } from "./WeatherIcon";

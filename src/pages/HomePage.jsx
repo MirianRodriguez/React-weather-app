@@ -1,4 +1,4 @@
-import { Button, CircularProgress, Grid } from "@mui/material";
+import { Alert, Button, CircularProgress, Grid } from "@mui/material";
 import { useState } from "react";
 import { useContext } from "react";
 import { CurrentConditions, SearchCity, FutureConditionsCard } from "../components";
@@ -8,8 +8,11 @@ import { Layout } from "../layout/Layout";
 import { alpha } from "@mui/material";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { DaysTable } from "../components/DaysTable";
+import { useEffect } from "react";
 
-
+const isEmptyObject = (obj) => {
+    return Object.keys(obj).length === 0;
+}
 
 export const HomePage = () => {
 
@@ -17,7 +20,7 @@ export const HomePage = () => {
 
     useFetchApi(city);
 
-    const { isLoading } = useContext(SearchContext);
+    const { isLoading, error } = useContext(SearchContext);  
 
     const [hidden, setHidden] = useState(true);
 
@@ -35,7 +38,7 @@ export const HomePage = () => {
                     <Grid item xs={12} textAlign={'center'}>
                         <CircularProgress/>
                     </Grid>
-                ) : (
+                ) : (!error ? (
                     <>
                     <Grid item xs={12}>
                         <CurrentConditions />
@@ -60,6 +63,11 @@ export const HomePage = () => {
                         </Grid>
                     )}
                     </>
+                ):(
+                    <Grid item xs={12}>
+                        <Alert severity="error">{error}</Alert>
+                    </Grid>
+                    )
                 )}
             </Grid>
             {/* <Typography variant="h1" color="initial">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio, ipsum. Aut dignissimos natus, perferendis esse adipisci, eos quis eum quia incidunt voluptatibus corporis doloremque id quos consectetur reiciendis nemo beatae!</Typography>  */}

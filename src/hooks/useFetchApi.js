@@ -4,11 +4,30 @@ import { fetchApiWeather } from '../helpers/fetchApiWeather';
 
 export const useFetchApi = (city) => {
 
-    const {saveData, setIsLoading} = useContext(SearchContext);
+    const {saveData, setIsLoading, saveError} = useContext(SearchContext);
 
     const getDataWeather = async() => {
-        saveData(await fetchApiWeather(city));
-        setIsLoading(false);
+
+        try {
+            saveData(await fetchApiWeather(city));
+            saveError(null);
+            setIsLoading(false);
+        } catch (error) {
+            saveError(error);
+            setIsLoading(false);
+        }
+
+        // const result = await fetchApiWeather(city);
+        // console.log(result);
+        // if (result.ok){
+        //     saveData(result.data);
+        //     console.log("guarde data");
+        //     saveError(null);
+        //     setIsLoading(false);
+        // }else{
+        //     saveError(result.errorCode);
+        //     setIsLoading(false);
+        // }
     }
 
     useEffect(() => {

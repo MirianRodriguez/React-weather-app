@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { fecthApiCities } from '../helpers/fecthApiCities';
 import { useFetchApiCitiesFrom } from '../hooks/useFetchApiCitiesFrom';
 import { SearchContext } from './SearchContext'
 
@@ -21,14 +20,16 @@ export const SearchProvider = ({children}) => {
 
   const [cities, setCities] = useState([]);
 
+  const [error, setError] = useState(null);
+
   const country = "Argentina";
 
-  useEffect(() => {
-    useFetchApiCitiesFrom(country).then(
-      (resp) => {
-        setCities(resp)
-      });
-  }, [])
+  // useEffect(() => {
+  //   useFetchApiCitiesFrom(country).then(
+  //     (resp) => {
+  //       setCities(resp)
+  //     });
+  // }, [])
   
   const saveCity = (city) => {
     setCity(city);
@@ -40,6 +41,14 @@ export const SearchProvider = ({children}) => {
     window.sessionStorage.setItem("data",  JSON.stringify(data));
   }
 
+  const saveError = (errorCode) => {
+    if(errorCode == 400){
+      setError("No pudimos encontrar esta ciudad. Prueba con otra o sé más específico.");
+    }else{
+      setError(null);
+    }
+  }
+
   return (
     <SearchContext.Provider value={{
       city, 
@@ -49,6 +58,8 @@ export const SearchProvider = ({children}) => {
       isLoading, 
       setIsLoading,
       cities,
+      error,
+      saveError,
       }}>
         {children}
     </SearchContext.Provider>
